@@ -1,0 +1,10 @@
+__pycache__
+
+edx/
+old/
+openedx/
+
+commits.db*
+installed.txt
+repo_health.json
+.ipynb_checkpoints

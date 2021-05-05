@@ -1,0 +1,8 @@
+dataset
+pydantic
+pytest
+jupyter
+jupyterlab
+pandas
+matplotlib
+seaborn
