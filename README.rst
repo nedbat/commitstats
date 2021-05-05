@@ -2,40 +2,43 @@ Note: this will be moved to repo-tools at some point.
 
 How to collect conventional commit stats:
 
-1. (First time) Create a directory called "edx"
+#. Install requirements.txt into your current virtualenv.
 
-1. cd into edx.
-
-1. Install requirements.txt into your current virtualenv.
-
-1. Install repo-tools (https://github.com/edx/repo-tools) into your current
+#. Install repo-tools (https://github.com/edx/repo-tools) into your current
    virtualenv.
 
-1. Clone the edx org::
+#. (if needed) Create a directory called "edx"
 
-   $ clone_org
+#. cd into edx.
 
-1. Update all the repos::
+#. Clone the edx org::
 
-   $ gittree git fetch --all
-   $ gittree git ma
+   $ clone_org edx
 
-1. cd ..; Run deptree.py::
+#. Update all the repos::
+
+   $ gittree "git fetch --all; git checkout master; git pull"
+
+#. cd ..; Run deptree.py::
 
    $ python deptree.py
 
-1. Remove previous metadata branches if any:
+#. Define your branch prefix, for example::
 
-   $ gittreeif nedbat/meta/installed git branch -D nedbat/meta/installed
+   $ export BRPREFIX=nedbat/
 
-1. Add metadata branches to install repos:
+#. Remove previous metadata branches if any::
 
-   $ while read repo; do echo $repo; git -C $repo branch nedbat/meta/installed; done < installed.txt
+   $ gittreeif ${BRPREFIX}meta/installed git branch -D ${BRPREFIX}meta/installed
 
-1. Delete the existing commits.db if any.
+#. Add metadata branches to installed repos::
 
-1. Collect commit stats:
+   $ while read repo; do echo $repo; git -C $repo branch ${BRPREFIX}meta/installed; done < installed.txt
 
-   $ gittreeif nedbat/meta/installed python /src/ghorg/commitstats.py /src/ghorg/commits.db
+#. Delete the existing commits.db file, if any.
 
-1. Open CommitStats.ipynb and recalc all the cells to generate a graph.
+#. Collect commit stats::
+
+   $ gittreeif ${BRPREFIX}meta/installed python ${PWD}/commitstats.py ${PWD}/commits.db
+
+#. Open CommitStats.ipynb and recalc all the cells to generate a graph.
