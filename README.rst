@@ -38,4 +38,4 @@ How to collect conventional commit stats:
 
    $ gittreeif nedbat/meta/installed python /src/ghorg/commitstats.py /src/ghorg/commits.db
 
-1. Open CommitStats.ipynb to generate a graph.
+1. Open CommitStats.ipynb and recalc all the cells to generate a graph.

@@ -5,4 +5,3 @@ jupyter
 jupyterlab
 pandas
 matplotlib
-seaborn
