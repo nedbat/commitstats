@@ -142,6 +142,13 @@ def main():
                 else:
                     github_third_party.add(ghdep)
             for dep in repo.dependencies_js_list:
+                spec = repo.dependencies_js_list[dep]
+                # A line in the package.lock dependencies can be an alias:
+                #  "@edx/brand": "npm:@edx/brand-openedx@1.1.0",
+                # In this case we want to follow the link from @edx/brand to
+                # @edx/brand-openedx.
+                if (m := re.fullmatch(r"npm:([\w@/-]+)@[\d.]+", spec)):
+                    dep = m[1]
                 if dep in our_npm:
                     installed.add(our_npm[dep])
                 else:
