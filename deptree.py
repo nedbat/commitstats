@@ -47,7 +47,9 @@ class Repo(BaseModel):
     openedx_yaml_release: str
     dependencies_github_list: list[str]
     dependencies_pypi_list: dict[str, str]
+    dependencies_js_list: dict[str, str]
     setup_py_pypi_name: str
+    npm_package: str
     github_is_private: bool
     github_is_archived: bool
     github_is_disabled: bool
@@ -77,6 +79,13 @@ class Repo(BaseModel):
                 deps[m[1]] = m[2]
         return deps
 
+    @validator("dependencies_js_list", pre=True)
+    def parse_dependencies_js_list(cls, val):
+        deps = {}
+        if val:
+            deps = json.loads(val)
+        return deps
+
     @validator("setup_py_pypi_name")
     def canonicalize_setup_py_pypi_name(cls, val):
         # A PyPI name could be listed as "edx_foo", but PyPI canonicalizes it
@@ -100,9 +109,11 @@ def main():
 
     repos = {r.repo_name: r for r in repo_health}
     our_pypi = {pypi_name: r for r in repo_health if (pypi_name := r.setup_py_pypi_name)}
+    our_npm = {npm_name: r for r in repo_health if (npm_name := r.npm_package)}
 
     print(f"{len(repos)} repos")
     print(f"{len(our_pypi)} pypi packages")
+    print(f"{len(our_npm)} npm packages")
 
     mains = set()
     for repo in repos.values():
@@ -113,6 +124,7 @@ def main():
     installed = set(mains)
     pypi_third_party = set()
     github_third_party = set()
+    npm_third_party = set()
     print(f"{len(installed)} mains")
 
     last_len_installed = len(installed)
@@ -124,11 +136,16 @@ def main():
                 else:
                     pypi_third_party.add(dep)
             for ghdep in repo.dependencies_github_list:
-                repo = repo_from_github_dependency(ghdep)
-                if repo in repos:
-                    installed.add(repos[repo])
+                ghrepo = repo_from_github_dependency(ghdep)
+                if ghrepo in repos:
+                    installed.add(repos[ghrepo])
                 else:
                     github_third_party.add(ghdep)
+            for dep in repo.dependencies_js_list:
+                if dep in our_npm:
+                    installed.add(our_npm[dep])
+                else:
+                    npm_third_party.add(dep)
         if len(installed) == last_len_installed:
             break
         last_len_installed = len(installed)
@@ -146,7 +163,11 @@ def main():
     print("\n".join(sorted(github_third_party)))
 
     print()
-    print(f"Third-party installed: {len(pypi_third_party)} packages, including:")
+    print(f"npm installed: {len(npm_third_party)} packages, including:")
+    print("\n".join(sorted(p for p in npm_third_party if "edx" in p)))
+
+    print()
+    print(f"PyPI installed: {len(pypi_third_party)} packages, including:")
     print("\n".join(sorted(p for p in pypi_third_party if "edx" in p)))
 
 

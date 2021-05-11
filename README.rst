@@ -17,7 +17,7 @@ How to collect conventional commit stats:
 
 #. Update all the repos::
 
-   $ gittree "git fetch --all; git checkout master; git pull"
+   $ gittree "git fetch --all; git checkout \$(git remote show origin | awk '/HEAD branch/ {print \$NF}'); git pull"
 
 #. cd ..; Run deptree.py::
 
