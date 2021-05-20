@@ -1,3 +1,5 @@
+import matplotlib.pyplot as plt
+import matplotlib.dates
 import pandas as pd
 import sqlite3
 
@@ -24,18 +26,20 @@ df["when"] = pd.to_datetime(df["weekend"], format="%Y%m%d")
 df = df[:-1]
 df.tail()
 
-import matplotlib.pyplot as plt
-import matplotlib.dates
-
 fig, ax = plt.subplots()
 fig.set_size_inches(12, 8)
 ax.xaxis.set_major_formatter(matplotlib.dates.DateFormatter('%b'))
 
-line1 = ax.plot(df.when, df.total, "*-", label="# Commits", color="black", linewidth=1)[0]
+line1 = ax.plot(df.when, df.total, "*-", label="# Commits", color="gray", linewidth=1)[0]
 
 ax2 = ax.twinx()
 ax2.set_ylim(-5, 105) 
 line2 = ax2.plot(df.when, df.pctcon, label="% Conventional", color="green", linewidth=4)[0]
 
-plt.legend([line1, line2], [line1.get_label(), line2.get_label()])
+ax3 = ax.twinx()
+ax3.set_ylim(-5, 105)
+line3 = ax3.plot(df.when, df.pctbod, label="% with bodies", color="blue", linewidth=2)[0]
+
+lines = [line1, line2, line3]
+plt.legend(lines, [l.get_label() for l in lines])
 plt.show()
