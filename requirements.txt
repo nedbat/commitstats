@@ -1,3 +1,4 @@
+click
 dataset
 pydantic
 pytest
