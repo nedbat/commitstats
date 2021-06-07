@@ -45,6 +45,7 @@ def test_repo_from_github_dependency(line, repo):
 class Repo(BaseModel):
     repo_name: str
     openedx_yaml_release: str
+    openedx_yaml_release_maybe: bool
     dependencies_github_list: list[str]
     dependencies_pypi_list: dict[str, str]
     dependencies_js_list: dict[str, str]
@@ -94,7 +95,7 @@ class Repo(BaseModel):
 
     @classmethod
     def from_csv(cls, d):
-        return cls.parse_obj({re.sub(r"[.:]", "_", k): v for k, v in d.items()})
+        return cls.parse_obj({re.sub(r"[.:-]", "_", k): v for k, v in d.items()})
 
 
 def main():
@@ -117,6 +118,9 @@ def main():
 
     mains = set()
     for repo in repos.values():
+        maybe = repo.openedx_yaml_release_maybe
+        if maybe:
+            continue
         release = repo.openedx_yaml_release
         if release:
             mains.add(repo)
@@ -126,6 +130,8 @@ def main():
     github_third_party = set()
     npm_third_party = set()
     print(f"{len(installed)} mains")
+    with open("mains.txt", "w") as f:
+        print("\n".join(r.repo_name for r in sorted(installed)), file=f)
 
     last_len_installed = len(installed)
     while True:

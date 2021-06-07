@@ -6,5 +6,6 @@ openedx/
 
 commits.db*
 installed.txt
+mains.txt
 repo_health.json
 .ipynb_checkpoints
