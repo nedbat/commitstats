@@ -22,6 +22,8 @@ How to collect conventional commit stats:
 
    $ gittree "git fetch --all; git checkout \$(git remote show origin | awk '/HEAD branch/ {print \$NF}'); git pull"
 
+#. cd ..
+
 #. Delete the existing commits.db file, if any.
 
 #. Collect commit stats. Consider every edx repo, ignore the ones ending in
