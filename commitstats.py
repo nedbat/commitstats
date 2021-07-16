@@ -65,16 +65,32 @@ def load_commits(db, repo_name):
                 analyze_commit(row)
                 commit_table.insert(row)
 
+STRICT = r"""(?x)
+    ^
+    (?P<label>build|chore|docs|feat|fix|perf|refactor|revert|style|test|temp)
+    (?P<breaking>!?):\s
+    (?P<subjtext>.+)
+    $
+    """
+
+LAX = r"""(?xi)
+    ^
+    (?P<label>\w+)
+    (?:\(\w+\))?
+    (?P<breaking>!?):\s
+    (?P<subjtext>.+)
+    $
+    """
+
 def analyze_commit(row):
-    m = re.search(r"""(?x)
-        ^
-        (?P<label>build|chore|docs|feat|fix|perf|refactor|revert|style|test|temp)
-        (?P<breaking>!?):\s
-        (?P<subjtext>.+)
-        $
-        """, row["subj"]
-    )
-    row["conventional"] = bool(m)
+    row["conventional"] = row["lax"] = False
+    m = re.search(STRICT, row["subj"])
+    if m:
+        row["conventional"] = True
+    else:
+        m = re.search(LAX, row["subj"])
+        if m:
+            row["lax"] = True
     if m:
         row["label"] = m["label"]
         row["breaking"] = bool(m["breaking"])
