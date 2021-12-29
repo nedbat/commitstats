@@ -1,8 +1,9 @@
 __pycache__
 
 edx/
-old/
+edx-solutions/
 openedx/
+old/
 
 commits.db*
 installed.txt
