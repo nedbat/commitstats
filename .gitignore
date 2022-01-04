@@ -3,7 +3,6 @@ __pycache__
 edx/
 edx-solutions/
 openedx/
-old/
 
 commits.db*
 installed.txt
