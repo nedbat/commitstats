@@ -14,7 +14,7 @@ update:		## Update all working trees
 
 collect:	## Collect statistics
 	rm commits.db
-	conventional_commits collect --ignore='*-private' --ignore='openedx/edx-platform' edx/* openedx/*
+	conventional_commits collect --ignore='*-private' edx/* openedx/*
 
 plot:		## Plot the weekly statistics
 	conventional_commits plot
