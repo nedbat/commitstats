@@ -5,10 +5,12 @@
 all: clones update collect plot		## Do everything to get latest data and plot it
 
 clones:		## Fully clone our orgs
-	cd edx; clone_org --prune --forks --no-archived edx
-	cd openedx; clone_org --prune --forks --no-archived openedx
+	cd edx; clone_org --prune --no-forks --no-archived edx
+	cd openedx; clone_org --prune --no-forks --no-archived openedx
 	cd archived/edx; clone_org --prune --archived-only edx
 	cd archived/openedx; clone_org --prune --archived-only openedx
+	cd forks/edx; clone_org --prune --forks-only --no-archived edx
+	cd forks/openedx; clone_org --prune --forks-only --no-archived openedx
 	cd edx-solutions; clone_org --prune --forks edx-solutions
 
 update:		## Update all working trees

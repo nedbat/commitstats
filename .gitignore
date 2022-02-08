@@ -1,9 +1,11 @@
 __pycache__
 
-archived/
 edx/
 edx-solutions/
 openedx/
+
+archived/
+forks/
 
 commits.db*
 installed.txt
