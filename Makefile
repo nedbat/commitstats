@@ -11,7 +11,6 @@ clones:		## Fully clone our orgs
 	cd archived/openedx; clone_org --prune --archived-only openedx
 	cd forks/edx; clone_org --prune --forks-only --no-archived edx
 	cd forks/openedx; clone_org --prune --forks-only --no-archived openedx
-	cd edx-solutions; clone_org --prune --forks edx-solutions
 
 update:		## Update all working trees
 	. gittools.sh; gittree "git fetch --all --quiet; git checkout --quiet \$$(git remote show origin | awk '/HEAD branch/ {print \$$NF}'); git pull"
