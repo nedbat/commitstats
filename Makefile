@@ -4,6 +4,9 @@
 
 all: clones check_forks update collect plot		## Do everything to get latest data and plot it
 
+install:	## Get the code needed to run this stuff
+	python -m pip install '/src/edx/repo-tools/repo-tools[conventional_commits]'
+
 clones:		## Fully clone our orgs
 	cd edx; clone_org --prune --no-forks --no-archived edx
 	cd openedx; clone_org --prune --no-forks --no-archived openedx
