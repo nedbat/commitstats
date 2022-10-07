@@ -4,6 +4,8 @@
 
 all: clones check_forks update collect plot		## Do everything to get latest data and plot it
 
+latest: clones check_forks update			## Get all the latest repo contents
+
 install:	## Get the code needed to run this stuff
 	python -m pip install '/src/edx/repo-tools/repo-tools[conventional_commits]'
 
