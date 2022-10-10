@@ -1,15 +1,15 @@
 __pycache__
 
-edx/
-edx-solutions/
-openedx/
+/edx/
+/edx-solutions/
+/openedx/
 
-archived/
-forks/
-wiki/
+/archived/
+/forks/
+/wiki/
 
-commits.db*
-installed.txt
-mains.txt
-repo_health.json
-.ipynb_checkpoints
+/commits.db*
+/installed.txt
+/mains.txt
+/repo_health.json
+/.ipynb_checkpoints
