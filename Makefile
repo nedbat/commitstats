@@ -22,7 +22,9 @@ check_forks:
 	python -c "import os;bad=set(os.listdir('forks/edx'))&set(os.listdir('openedx'));print('BAD: ', bad)if bad else ''"
 
 update:		## Update all working trees
-	. gittools.sh; gittree "git fetch --all --quiet; git checkout --quiet \$$(git remote show origin | awk '/HEAD branch/ {print \$$NF}'); git pull"
+	. gittools.sh; \
+		gittree "git checkout --quiet \$$(git remote show origin | awk '/HEAD branch/ {print \$$NF}'); git pull --all" | \
+		sed -e '/Already up to date./d'
 
 collect:	## Collect statistics
 	rm -f commits.db
