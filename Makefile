@@ -2,9 +2,9 @@
 
 .DEFAULT_GOAL := help
 
-all: clones check_forks update collect plot		## Do everything to get latest data and plot it
+all: clones check_forks fix_private_remotes update collect plot		## Do everything to get latest data and plot it
 
-latest: clones check_forks update			## Get all the latest repo contents
+latest: clones check_forks fix_private_remotes update			## Get all the latest repo contents
 
 install:	## Get the code needed to run this stuff
 	python -m pip install '/src/edx/repo-tools/repo-tools[conventional_commits]'
@@ -20,6 +20,9 @@ clones:		## Fully clone our orgs
 check_forks:
 	python -c "import os;bad=set(os.listdir('forks/openedx'))&set(os.listdir('edx'));print('BAD: ', bad)if bad else ''"
 	python -c "import os;bad=set(os.listdir('forks/edx'))&set(os.listdir('openedx'));print('BAD: ', bad)if bad else ''"
+
+fix_private_remotes:
+	. gittools.sh; gittree fix-private-remote
 
 update:		## Update all working trees
 	. gittools.sh; \
