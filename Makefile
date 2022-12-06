@@ -9,7 +9,10 @@ latest: clones check_forks fix_private_remotes update			## Get all the latest re
 install:	## Get the code needed to run this stuff
 	python -m pip install '/src/edx/repo-tools/repo-tools[conventional_commits]'
 
-clones:		## Fully clone our orgs
+init:		## Create the initial directory structure
+	mkdir -p {,archived/,forks/}{edx,openedx}
+
+clones: init	## Fully clone our orgs
 	cd edx; clone_org --prune --no-forks --no-archived edx
 	cd openedx; clone_org --prune --no-forks --no-archived openedx
 	cd archived/edx; clone_org --prune --archived-only edx
