@@ -25,7 +25,7 @@ check_forks:
 	python -c "import os;bad=set(os.listdir('forks/edx'))&set(os.listdir('openedx'));print('BAD: ', bad)if bad else ''"
 
 fix_private_remotes:
-	. gittools.sh; gittree fix-private-remote
+	. gittools.sh; gittree git fix-private-remotes
 
 update:		## Update all working trees
 	. gittools.sh; \
