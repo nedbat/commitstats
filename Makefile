@@ -12,13 +12,15 @@ install:	## Get the code needed to run this stuff
 init:		## Create the initial directory structure
 	mkdir -p {,archived/,forks/}{edx,openedx}
 
+CLONE = clone_org --prune --ignore='*-ghsa-*'
+
 clones: init	## Fully clone our orgs
-	cd edx; clone_org --prune --no-forks --no-archived edx
-	cd openedx; clone_org --prune --no-forks --no-archived openedx
-	cd archived/edx; clone_org --prune --archived-only edx
-	cd archived/openedx; clone_org --prune --archived-only openedx
-	cd forks/edx; clone_org --prune --forks-only --no-archived edx
-	cd forks/openedx; clone_org --prune --forks-only --no-archived openedx
+	cd edx; $(CLONE) --no-forks --no-archived edx
+	cd openedx; $(CLONE) --no-forks --no-archived openedx
+	cd archived/edx; $(CLONE) --archived-only edx
+	cd archived/openedx; $(CLONE) --archived-only openedx
+	cd forks/edx; $(CLONE) --forks-only --no-archived edx
+	cd forks/openedx; $(CLONE) --forks-only --no-archived openedx
 
 check_forks:
 	python -c "import os;bad=set(os.listdir('forks/openedx'))&set(os.listdir('edx'));print('BAD: ', bad)if bad else ''"
