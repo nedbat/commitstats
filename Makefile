@@ -12,7 +12,7 @@ install:	## Get the code needed to run this stuff
 init:		## Create the initial directory structure
 	mkdir -p {,archived/,forks/}{edx,openedx}
 
-CLONE = clone_org --prune --ignore='*-ghsa-*'
+CLONE = clone_org --prune --ignore='*-ghsa-*-*-*'
 
 clones: init	## Fully clone our orgs
 	cd edx; $(CLONE) --no-forks --no-archived edx
