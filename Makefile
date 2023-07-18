@@ -7,7 +7,7 @@ all: clones check_forks fix_private_remotes update collect plot		## Do everythin
 latest: clones check_forks fix_private_remotes update			## Get all the latest repo contents
 
 install:	## Get the code needed to run this stuff
-	python -m pip install '/src/edx/repo-tools/repo-tools[conventional_commits]'
+	python -m pip install '/src/edx/src/repo-tools[conventional_commits]'
 
 init:		## Create the initial directory structure
 	mkdir -p {,archived/,forks/}{edx,openedx}
