@@ -2,7 +2,7 @@
 
 .DEFAULT_GOAL := help
 
-all: clones check_forks fix_private_remotes update collect plot		## Do everything to get latest data and plot it
+all: latest collect plot						## Do everything to get latest data and plot it
 
 latest: clones check_forks fix_private_remotes update			## Get all the latest repo contents
 
@@ -12,9 +12,15 @@ install:	## Get the code needed to run this stuff
 init:		## Create the initial directory structure
 	mkdir -p {,archived/,forks/}{edx,openedx}
 
+check_env:
+	@if [[ -z "$$GITHUB_TOKEN" ]]; then \
+		echo 'Missing GITHUB_TOKEN: opvars github'; \
+		exit 1; \
+	fi
+
 CLONE = clone_org --prune --ignore='*-ghsa-*-*-*'
 
-clones: init	## Fully clone our orgs
+clones: init check_env	## Fully clone our orgs
 	cd edx; $(CLONE) --no-forks --no-archived edx
 	cd openedx; $(CLONE) --no-forks --no-archived openedx
 	cd archived/edx; $(CLONE) --archived-only edx
