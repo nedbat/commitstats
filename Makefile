@@ -7,7 +7,7 @@ all: latest collect plot						## Do everything to get latest data and plot it
 latest: clones check_forks fix_private_remotes update			## Get all the latest repo contents
 
 install:	## Get the code needed to run this stuff
-	python -m pip install '/src/edx/src/repo-tools[conventional_commits]'
+	python -m pip install -e '/src/edx/src/repo-tools[conventional_commits]'
 
 init:		## Create the initial directory structure
 	mkdir -p {,archived/,forks/}{edx,openedx}
