@@ -29,8 +29,9 @@ clones: init check_env	## Fully clone our orgs
 	cd forks/openedx; $(CLONE) --forks-only --no-archived openedx
 
 check_forks:
-	python -c "import os;bad=set(os.listdir('forks/openedx'))&set(os.listdir('edx'));print('BAD: ', bad)if bad else ''"
-	python -c "import os;bad=set(os.listdir('forks/edx'))&set(os.listdir('openedx'));print('BAD: ', bad)if bad else ''"
+	python -c "import os;bad=set(os.listdir('openedx'))&set(os.listdir('edx'))-{'.github'};print('BAD COPY: ', bad)if bad else ''"
+	python -c "import os;bad=set(os.listdir('forks/openedx'))&set(os.listdir('edx'));print('BAD FORK: ', bad)if bad else ''"
+	python -c "import os;bad=set(os.listdir('forks/edx'))&set(os.listdir('openedx'));print('BAD FORK: ', bad)if bad else ''"
 
 fix_private_remotes:
 	. gittools.sh; gittree git fix-private-remotes
