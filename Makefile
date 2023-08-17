@@ -10,7 +10,7 @@ install:	## Get the code needed to run this stuff
 	python -m pip install -e '/src/edx/src/repo-tools[conventional_commits,find_dependencies]'
 
 init:		## Create the initial directory structure
-	mkdir -p {,archived/,forks/}{edx,openedx}
+	mkdir -p {,archived/,forks/}{edx,openedx,overhangio}
 
 check_env:
 	@if [[ -z "$$GITHUB_TOKEN" ]]; then \
@@ -23,10 +23,13 @@ CLONE = clone_org --prune --ignore='*-ghsa-*-*-*'
 clones: init check_env	## Fully clone our orgs
 	cd edx; $(CLONE) --no-forks --no-archived edx
 	cd openedx; $(CLONE) --no-forks --no-archived openedx
+	cd overhangio; $(CLONE) --no-forks --no-archived overhangio
 	cd archived/edx; $(CLONE) --archived-only edx
 	cd archived/openedx; $(CLONE) --archived-only openedx
+	cd archived/overhangio; $(CLONE) --archived-only overhangio
 	cd forks/edx; $(CLONE) --forks-only --no-archived edx
 	cd forks/openedx; $(CLONE) --forks-only --no-archived openedx
+	cd forks/overhangio; $(CLONE) --forks-only --no-archived overhangio
 
 check_forks:
 	python -c "import os;bad=set(os.listdir('openedx'))&set(os.listdir('edx'))-{'.github'};print('BAD COPY: ', bad)if bad else ''"
