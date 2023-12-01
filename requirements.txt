@@ -6,3 +6,5 @@ jupyter
 jupyterlab
 pandas
 matplotlib
+
+-e /src/edx/src/repo-tools[conventional_commits,find_dependencies]
